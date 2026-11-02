@@ -1,0 +1,11 @@
+M8 Short 8-3 — Container Queries
+
+Both nav elements have independent checkbox and label IDs.
+Each .navbar establishes an inline-size query container.
+The @container (min-width: 560px) rule controls menu layout according to each navigation element’s width.
+
+Suggested browser tests: at viewport widths 375px, 768px, 1024px and 1440px, verify the top and speaker nav independently. At widths where the outer nav is at least 560px but the section nav is below 560px, the outer menu should be horizontal while speaker menu uses a hamburger. Open/close each hamburger using its label. Recheck at widths that make each menu cross 560px.
+
+Browser-based automated tests could not run here because this environment blocks Chromium access to both local files and localhost.
+The source HTML has no nested .submenu lists; CSS includes hover/focus support if nested submenu items are supplied.
+The original images folder was not uploaded; copy ch08c/images beside index.html.

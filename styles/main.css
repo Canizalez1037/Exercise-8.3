@@ -1,0 +1,229 @@
+/* variables */
+:root {
+	--primary-color: #931420;
+	--accent-color: #f6bb73;
+	--light-accent: #fffded;
+	--light: white;
+	--dark: black;
+}
+
+/* reset */
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+/* the default styles for the elements */
+body {
+	font-family: Arial, Helvetica, sans-serif;
+    font-size: 100%;
+    width: 80%;
+    margin: auto;
+    border: 3px solid var(--primary-color);
+}
+header, section, aside, footer { padding: 1em; }
+h1, h2, h3, p, article, blockquote { padding-bottom: .5em; }
+ul { margin-left: 1em; }
+h1 { font-size: 150%; }
+h2 { font-size: 120%; }
+h3 { font-size: 110%; }
+a:focus, a:hover { font-style: italic; }
+
+/* the styles for the header */
+header {
+	border-bottom: 3px solid var(--primary-color);
+	background-image: linear-gradient(30deg, 
+		var(--accent-color) 0%, 
+		var(--light-accent) 25%, 
+		var(--light) 50%, 
+		var(--light-accent) 75%, 
+		var(--accent-color) 100%);
+	& h2 {
+		font-size: 175%;
+		color: var(--primary-color);
+		padding-bottom: 0;
+	}
+	& h3 {
+		font-size: 130%;
+		font-style: italic;
+	}
+	& img {
+		float: left;
+		margin: 0 30px;
+		width: clamp(40px, 15%, 66px);
+	}
+}
+
+/* the styles for the main element */
+main {
+	clear: left;
+	display: flex;
+}
+
+/* the styles for the section */
+section {
+	flex-basis: 75%;
+	& h1 {
+		color: var(--primary-color);
+	}
+	& article + h2 {
+		clear: left;
+		color: var(--primary-color);
+		border-top: 3px solid var(--primary-color);
+		padding-top: .5em;
+	}
+}
+
+/* the styles for the article */
+article {
+	padding-top: .5em;
+	margin-bottom: .5em;
+	& img {
+		float: left;
+		margin: .25em 1em 1em 0;
+		border: 1px solid var(--dark);
+		width: min(100%, 225px);
+	}
+}
+
+/* the styles for the aside */
+aside {
+	flex-basis: 25%;
+	& h2 {
+		color: var(--primary-color);
+	}
+	& img {
+		margin-bottom: .9em;
+	}
+	& blockquote {
+		font-style: italic;
+		margin-left: .5em;
+	}
+}
+
+/* the styles for the footer */
+footer {
+	background-color: var(--primary-color);
+	& p {
+		text-align: center;
+		color: white;
+		padding-bottom: 0; 
+	}
+}
+
+/* the styles for the navigation menu */
+.navbar {
+	background-color: var(--primary-color);
+	container-type: inline-size;
+	position: relative;
+	z-index: 2;
+	& ul {
+		list-style-type: none;
+		margin: 0;
+	}
+	& a {
+		display: block;
+		padding: .75em;
+		text-decoration: none;
+		color: var(--light);
+	}
+	& a.current {
+		color: var(--accent-color);
+		font-weight: bold;
+	}
+	& a.current:hover { 
+		font-style: normal; /* override hover effect */
+	}
+}
+
+/* mobile-first navigation for containers under 560px */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.navbar input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    width: 1px;
+    height: 1px;
+}
+
+.menu-btn {
+    display: block;
+    width: max-content;
+    padding: .65em .85em;
+    color: var(--light);
+    font-size: 1.2em;
+    cursor: pointer;
+}
+.menu-btn::before { content: "\2630"; }
+.navbar input[type="checkbox"]:checked + .menu-btn::before { content: "\00D7"; }
+.navbar input[type="checkbox"]:focus-visible + .menu-btn {
+    outline: 2px solid var(--accent-color);
+    outline-offset: -2px;
+}
+
+.menu {
+    display: none;
+    position: absolute;
+    z-index: 20;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: var(--primary-color);
+    flex-direction: column;
+}
+.navbar input[type="checkbox"]:checked ~ .menu { display: flex; }
+.menu > li { position: relative; }
+.menu > li > a { white-space: normal; }
+
+/* submenu behavior for any menu entries containing nested lists */
+.menu li:has(> .submenu) > a::after {
+    content: "\25B6"; /* right-pointing triangle */
+    font-size: .7em;
+    margin-left: .6em;
+}
+.submenu {
+    display: none;
+    position: absolute;
+    z-index: 30;
+    left: 100%;
+    top: 0;
+    min-width: 12em;
+    background-color: var(--primary-color);
+    list-style: none;
+}
+.menu li:hover > .submenu,
+.menu li:focus-within > .submenu { display: block; }
+
+/* Responsive based on each navigation container, not viewport */
+@container (min-width: 560px) {
+    .menu-btn { display: none; }
+    .menu,
+    .navbar input[type="checkbox"]:checked ~ .menu {
+        display: flex;
+        position: static;
+        width: 100%;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: space-evenly;
+    }
+    .menu > li { flex: 0 1 auto; }
+    .menu > li > a { text-align: center; }
+    .menu li:has(> .submenu) > a::after {
+        content: "\25BC"; /* downward triangle */
+    }
+    .submenu {
+        left: 0;
+        top: 100%;
+    }
+}
